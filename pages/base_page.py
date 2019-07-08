@@ -18,11 +18,4 @@ class BasePage:
         return True
 
     def is_string_in_url_present(self, url_substring):
-        print(self.browser.current_url)
-        print("Подстрока в URL? ", url_substring in self.browser.current_url)
-        # url_substring in self.browser.current_url
-        try:
-            url_substring in self.browser.current_url
-        except NoSuchElementException:
-            return False
-        return True
+        return url_substring in self.browser.current_url
