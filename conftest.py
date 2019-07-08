@@ -21,10 +21,8 @@ def browser(request):
     Фикстура вызова браузера с заданными параметрами
     """
     user_language = request.config.getoption("language")
-    # print(user_language)
     options = Options()
     options.add_experimental_option('prefs',
                                     {'intl.accept_languages': user_language})
     browser = webdriver.Chrome(options=options)
-    # browser = webdriver.Chrome(expected_conditions=expected_conditions)
     return browser
