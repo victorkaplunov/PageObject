@@ -8,6 +8,7 @@ from .locators import BasePageLocators
 from .locators import LoginPageLocators
 from .locators import BasketPageLocators
 
+
 class BasePage:
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -58,6 +59,11 @@ class BasePage:
 
         return True
 
+    def go_to_basket(self):
+        """Transition to basket page"""
+        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
+        link.click()
+
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
@@ -66,19 +72,14 @@ class BasePage:
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
     def should_be_login_url(self):
-        # реализуйте проверку на корректный url адрес
         assert self.is_string_in_url_present(LoginPageLocators.LOGIN_PAGE_URL), "URL do not contain 'login' string."
-
-    def go_to_basket(self):
-        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
-        link.click()
-
-    def should_not_be_goods_in_basket(self):
-        assert self.is_not_element_present(*BasketPageLocators.BASKET_CONTENT), \
-            "Basket is not empty."
 
     def basket_is_empty_message_present(self):
         print(self.browser.find_element(*BasketPageLocators.BASKET_IS_EMPTY_MESSAGE).text)
         assert self.browser.find_element(*BasketPageLocators.BASKET_IS_EMPTY_MESSAGE).text == \
             'Your basket is empty. Continue shopping', \
             "Page do not contain message 'Your basket is empty. Continue shopping'."
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                 " probably unauthorised user"
