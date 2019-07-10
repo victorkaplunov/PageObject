@@ -1,11 +1,14 @@
 from .pages.main_page import MainPage
+from .pages.base_page import BasePage
 from .pages.login_page import LoginPage
-import time
+from .pages.cart_page import BasketPage
+
 
 def test_guest_can_go_to_login_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209?promo=midsummer"
     page = MainPage(browser, link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     page.open()  # открываем страницу
+    page = BasePage(browser, link)
     page.go_to_login_page()  # выполняем метод страницы -- переходим на страницу логина
 
 
@@ -30,5 +33,6 @@ def test_guest_cant_see_product_in_cart_opened_from_main_page(browser):
     page = MainPage(browser, link)
     page.open()
     page.go_to_basket()
+    page = BasketPage(browser, link)
     page.should_not_be_goods_in_basket()
     page.basket_is_empty_message_present()
