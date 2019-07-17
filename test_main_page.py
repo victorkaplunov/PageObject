@@ -9,10 +9,10 @@ def test_guest_can_go_to_login_page(browser):
     """Check if guest can go to login page from promo page."""
 
     link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209?promo=midsummer"
-    page = MainPage(browser, link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
-    page.open()  # открываем страницу
+    page = MainPage(browser, link)
+    page.open()
     page = BasePage(browser, link)
-    page.go_to_login_page()  # выполняем метод страницы -- переходим на страницу логина
+    page.go_to_login_page()
 
 
 def test_guest_should_see_login_link(browser):
