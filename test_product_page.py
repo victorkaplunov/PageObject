@@ -16,29 +16,17 @@ import faker
     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer5",
     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6",
     pytest.param("http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
-                 marks=pytest.mark.xfail(reason="some persistent bug")),
+                 marks=pytest.mark.xfail(reason="expected persistent bug")),
     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"
-])
+    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"])
 def test_guest_can_add_product_to_cart(browser, link):
     """Go to page with promo 'newYear' and add book to basket.
-    In alert window insert data. Compare title and price in messsage
-    and book description."""
+    Compare title and price in message and book description."""
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
-    page.solve_quiz_and_get_code()
     page.compare_book_title(page.get_book_title_from_message())
     page.compare_book_price(page.get_book_price_from_message())
-
-
-@pytest.mark.xfail
-def test_guest_cant_see_success_message_after_adding_product_to_cart(browser):
-    link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
-    page = ProductPage(browser, link)
-    page.open()
-    page.add_to_basket()
-    page.should_not_be_success_message()
 
 
 def test_guest_cant_see_success_message(browser):
@@ -46,15 +34,6 @@ def test_guest_cant_see_success_message(browser):
     page = ProductPage(browser, link)
     page.open()
     page.should_not_be_success_message()
-
-
-@pytest.mark.xfail
-def test_message_disappeared_after_adding_product_to_cart(browser):
-    link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
-    page = ProductPage(browser, link)
-    page.open()
-    page.add_to_basket()
-    page.should_be_disappeared_success_message()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):
@@ -110,6 +89,5 @@ class TestUserAddToCartFromProductPage(object):
         page = ProductPage(browser, link)
         page.open()
         page.add_to_basket()
-        page.solve_quiz_and_get_code()
         page.compare_book_title(page.get_book_title_from_message())
         page.compare_book_price(page.get_book_price_from_message())
