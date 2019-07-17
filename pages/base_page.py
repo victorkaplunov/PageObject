@@ -68,8 +68,17 @@ class BasePage:
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
 
+    def go_to_registration_page(self):
+        link = self.browser.find_element(*BasePageLocators.REGISTRATION_LINK)
+        link.click()
+
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def should_be_registration_link(self):
+        assert self.is_element_present(*BasePageLocators.REGISTRATION_LINK), "Registration link is not presented"
+
+
 
     def should_be_login_url(self):
         assert self.is_string_in_url_present(LoginPageLocators.LOGIN_PAGE_URL), "URL do not contain 'login' string."
