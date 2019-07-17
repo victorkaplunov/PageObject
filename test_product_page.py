@@ -1,9 +1,9 @@
 """Tests for product page"""
 import pytest
+from faker import Faker
 from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
 from .pages.cart_page import BasketPage
-import faker
 
 
 @pytest.mark.need_review
@@ -26,6 +26,7 @@ def test_guest_can_add_product_to_cart(browser, link):
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
+    page.solve_quiz_and_get_code()
     page.compare_book_title(page.get_book_title_from_message())
     page.compare_book_price(page.get_book_price_from_message())
 
@@ -62,7 +63,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
 @pytest.mark.need_review
 def test_guest_cant_see_product_in_cart_opened_from_product_page(browser):
     """Check emptiness of basket for fist guest visit."""
-    
+
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
@@ -72,12 +73,13 @@ def test_guest_cant_see_product_in_cart_opened_from_product_page(browser):
     page.basket_is_empty_message_present()
 
 
-class TestUserAddToCartFromProductPage(object):
+class TestUserAddToCartFromProductPage():
+    """ Tests and setup for basket page."""
     @pytest.fixture(autouse=True)
     def setup(self, browser):
         """Setup fixture for tests in this class. It is register new user."""
-        
-        fake = faker.Faker()
+
+        fake = Faker()
         email = fake.email()
         password = fake.password(length=9)
         link = 'http://selenium1py.pythonanywhere.com/en-gb/accounts/login/'
@@ -87,7 +89,7 @@ class TestUserAddToCartFromProductPage(object):
 
     def test_user_cant_see_success_message(self, browser):
         """Check if success message present on a book page."""
-        
+
         link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
         page = ProductPage(browser, link)
         page.open()
@@ -98,10 +100,11 @@ class TestUserAddToCartFromProductPage(object):
         """Go to page with promo 'newYear' and add book to basket.
         In alert window insert data. Compare title and price in message
         and book description. We are register a user before test."""
-        
+
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
         page = ProductPage(browser, link)
         page.open()
         page.add_to_basket()
+        page.solve_quiz_and_get_code()
         page.compare_book_title(page.get_book_title_from_message())
         page.compare_book_price(page.get_book_price_from_message())
