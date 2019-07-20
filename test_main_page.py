@@ -37,7 +37,7 @@ def test_guest_should_be_at_login_page(browser):
 
 
 def test_guest_cant_see_product_in_cart_opened_from_main_page(browser):
-    """Check if guest can go basket. Check if guest can see only empty basket at first visit."""
+    """Check if guest can go to basket. Check if guest can see only empty basket at first visit."""
 
     link = "http://selenium1py.pythonanywhere.com/en-gb/"
     page = MainPage(browser, link)
